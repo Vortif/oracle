@@ -47,3 +47,22 @@ FROM Wrogowie_Kocurow wk
 LEFT JOIN Kocury k ON wk.pseudo = k.pseudo
 GROUP BY k.funkcja, k.pseudo
 HAVING COUNT(*) > 1;
+
+--23
+SELECT imie, ((NVL(przydzial_myszy,0) + myszy_extra)*12) "DAWKA ROCZNA", 'powyzej 864' "DAWKA"
+FROM Kocury
+WHERE ((NVL(przydzial_myszy,0) + myszy_extra)*12) > 864
+UNION
+SELECT imie, ((NVL(przydzial_myszy,0) + myszy_extra)*12) "DAWKA ROCZNA", '        864' "DAWKA"
+FROM Kocury
+WHERE ((NVL(przydzial_myszy,0) + myszy_extra)*12) = 864
+UNION
+SELECT imie, ((NVL(przydzial_myszy,0) + myszy_extra)*12) "DAWKA ROCZNA", 'ponizej 864' "DAWKA"
+FROM Kocury
+WHERE ((NVL(przydzial_myszy,0) + myszy_extra)*12) < 864
+ORDER BY 2 DESC;
+
+--24
+--bez podzapytan
+SELECT nr_bandy "NR BANDY", nazwa, teren
+FROM Bandy
